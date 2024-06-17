@@ -61,6 +61,7 @@ class SnowflakeCredentials(ConnectionStringCredentials):
     warehouse: Optional[str] = None
     role: Optional[str] = None
     authenticator: Optional[str] = None
+    token: Optional[str] = None
     private_key: Optional[TSecretStrValue] = None
     private_key_passphrase: Optional[TSecretStrValue] = None
     application: Optional[str] = SNOWFLAKE_APPLICATION_ID
@@ -121,6 +122,9 @@ class SnowflakeCredentials(ConnectionStringCredentials):
 
         if self.authenticator:
             conn_params["authenticator"] = self.authenticator
+
+        if self.authenticator == "oauth":
+            conn_params["token"] = self.token
 
         if self.application != "" and "application" not in conn_params:
             conn_params["application"] = self.application
